@@ -1,21 +1,21 @@
 #include <iostream>
-#include "LongArithmetic.h"
+#include "Bignum.h"
 
-LongArithmetic::LongArithmetic() {
+Bignum::Bignum() {
     a.resize(0);
     b.resize(0);
 }
 
-LongArithmetic::LongArithmetic(string formalA, string formalB) {
-    LongArithmetic();
-    for (int i=(int)formalA.length(); i>0; i-=9)
+Bignum::Bignum(string formalA, string formalB) {
+    Bignum();
+    for (unsigned int i = formalA.length(); i>0; i-=9)
         if (i < 9)
             a.push_back (atoi (formalA.substr (0, i).c_str()));
         else
             a.push_back (atoi (formalA.substr (i-9, 9).c_str()));
     while (a.size() > 1 && a.back() == 0)
         a.pop_back();
-    for (int i=(int)formalB.length(); i>0; i-=9)
+    for (unsigned int i = formalB.length(); i>0; i-=9)
         if (i < 9)
             b.push_back (atoi (formalB.substr (0, i).c_str()));
         else
@@ -24,7 +24,7 @@ LongArithmetic::LongArithmetic(string formalA, string formalB) {
         b.pop_back();
 }
 
-LongArithmetic::LongArithmetic(const LongArithmetic& longArithmetic) {
+Bignum::Bignum(const Bignum& longArithmetic) {
     a = longArithmetic.a;
     b = longArithmetic.b;
 
@@ -41,22 +41,22 @@ LongArithmetic::LongArithmetic(const LongArithmetic& longArithmetic) {
         }
 }
 
-vector<int> LongArithmetic::getA() {
+vector<int> Bignum::getA() {
         return a;
 }
 
-vector<int> LongArithmetic::getB() {
+vector<int> Bignum::getB() {
         return b;
 }
 
-void LongArithmetic::print(vector<int> arr) {
+void Bignum::print(vector<int> arr) {
     printf ("%d", arr.empty() ? 0 : arr.back());
     for (int i=(int)arr.size()-2; i>=0; --i)
         printf ("%09d", arr[i]);
     printf("\n");
 }
 
-vector<int> LongArithmetic::addition(vector<int> a, vector<int> b) {
+vector<int> Bignum::addition(vector<int> a, vector<int> b) {
     vector<int> sum = a;
     int carry = 0;
 
@@ -70,7 +70,7 @@ vector<int> LongArithmetic::addition(vector<int> a, vector<int> b) {
     return sum;
 }
 
-vector<int> LongArithmetic::subtraction(vector<int> a, vector<int> b) {
+vector<int> Bignum::subtraction(vector<int> a, vector<int> b) {
     int carry = 0;
     vector<int> sub;
 
@@ -104,7 +104,7 @@ vector<int> LongArithmetic::subtraction(vector<int> a, vector<int> b) {
     return sub;
 }
 
-vector<int> LongArithmetic::multiplication(vector<int> a, vector<int> b) {
+vector<int> Bignum::multiplication(vector<int> a, vector<int> b) {
 
     vector<int> c (a.size()+b.size());
 
@@ -119,18 +119,18 @@ vector<int> LongArithmetic::multiplication(vector<int> a, vector<int> b) {
     return c;
 }
 
-int LongArithmetic::getCarry() {
+int Bignum::getCarry() {
     return carry;
 }
 
-void LongArithmetic::print(vector<int> arr, int carry) {
+void Bignum::print(vector<int> arr, int carry) {
     printf ("%d", arr.empty() ? 0 : arr.back());
     for (int i=(int)arr.size()-2; i>=0; --i)
         printf ("%09d", arr[i]);
     printf(".%d\n", carry);
 }
 
-vector<int> LongArithmetic::division(vector<int> a, int shortB) {
+vector<int> Bignum::division(vector<int> a, int shortB) {
     if (shortB == 0)
         throw "Error";
 
@@ -149,7 +149,7 @@ vector<int> LongArithmetic::division(vector<int> a, int shortB) {
     return div;
 }
 
-void LongArithmetic::evolution(int power) {
+void Bignum::evolution(int power) {
     vector<int> basis = a, result = a;
 
     if (power < 0)
@@ -164,7 +164,7 @@ void LongArithmetic::evolution(int power) {
 }
 
 
-void LongArithmetic::involution() {
+void Bignum::involution() {
     if (checkNegative(a))
         throw "Error";
     vector<int> l(0);
@@ -172,7 +172,7 @@ void LongArithmetic::involution() {
     vector<int> r(a), res;
      string one = "1";
      string two = "2";
-    LongArithmetic longArithmetic(one,two);
+    Bignum longArithmetic(one,two);
 
     while (longArithmetic.compare(l,r) == -1 || longArithmetic.compare(l,r) == 0)
     {
@@ -188,4 +188,4 @@ void LongArithmetic::involution() {
     print(res);
 }
 
-LongArithmetic::~LongArithmetic() {}
+Bignum::~Bignum() {}

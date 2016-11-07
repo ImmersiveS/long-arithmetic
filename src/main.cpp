@@ -1,5 +1,5 @@
 #include <iostream>
-#include "LongArithmetic.h"
+#include "Bignum.h"
 using namespace std;
 
 int main() {
@@ -26,7 +26,7 @@ int main() {
                 cout << "Input a,b: \n";
                 cin >> a >> b;
 
-                LongArithmetic longArithmetic(a, b);
+                Bignum longArithmetic(a, b);
 
                 vector<int> additionResult = longArithmetic.addition(longArithmetic.getA(), longArithmetic.getB());
                 cout << "Result: ";
@@ -38,7 +38,7 @@ int main() {
                 cout << "Input a,b: \n";
                 cin >> a >> b;
 
-                LongArithmetic longArithmetic(a, b);
+                Bignum longArithmetic(a, b);
 
                 vector<int> subtractionResult = longArithmetic.subtraction(longArithmetic.getA(),
                                                                              longArithmetic.getB());
@@ -50,7 +50,7 @@ int main() {
                 cout << "Input a,b: \n";
                 cin >> a >> b;
 
-                LongArithmetic longArithmetic(a, b);
+                Bignum longArithmetic(a, b);
 
                 vector<int> multiplicationResult =
                         longArithmetic.multiplication(longArithmetic.getA(), longArithmetic.getB());
@@ -64,7 +64,7 @@ int main() {
                 cout << "Input a, b(short): \n";
                 cin >> a >> shortB;
 
-                LongArithmetic longArithmetic(a, b);
+                Bignum longArithmetic(a, b);
 
                 try {
                     vector<int> divisionResult = longArithmetic.division(longArithmetic.getA(), shortB);
@@ -81,7 +81,7 @@ int main() {
                 cout << "Input a and power: \n";
                 cin >> a >> power;
                 try {
-                    LongArithmetic longArithmetic(a, b);
+                    Bignum longArithmetic(a, b);
 
                     longArithmetic.evolution(power);
                 } catch (const char *errorMassage) {
@@ -93,7 +93,7 @@ int main() {
                 cout << "Input a: \n";
                 cin >> a;
 
-                LongArithmetic longArithmetic(a, b);
+                Bignum longArithmetic(a, b);
 
                 try {
                     longArithmetic.involution();

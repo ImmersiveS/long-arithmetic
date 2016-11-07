@@ -7,15 +7,7 @@
 #define LONG_ARITHMETIC_LONGARITHMETIC_H
 using namespace std;
 
-/**
-* LongArithmetic Model Object.
-*
-* <P>Implementation of big decimal arithmetic with related operations.
-*
-* @author Sergey Lobachev
-* @version 1.0
-*/
-class LongArithmetic {
+class Bignum {
 
 private:
     /*A base of the system*/
@@ -52,13 +44,13 @@ private:
 
 public:
     /*Default constructor. */
-    LongArithmetic();
+    Bignum();
 
     /*Constructor with parameters */
-    LongArithmetic(string, string);
+    Bignum(string, string);
 
     /*Copy constructor*/
-    LongArithmetic(const LongArithmetic&);
+    Bignum(const Bignum&);
 
     /*Get a vector*/
     vector<int> getA();
@@ -94,7 +86,7 @@ public:
     void print(vector<int>, int);
 
     /*Destructor of class*/
-    ~LongArithmetic();
+    ~Bignum();
 };
 
 #endif //LONG_ARITHMETIC_LONGARITHMETIC_H
