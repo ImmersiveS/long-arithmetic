@@ -7,13 +7,14 @@
 #define LONG_ARITHMETIC_LONGARITHMETIC_H
 using namespace std;
 
-class Bignum {
+/*A base of the system*/
+const int base = 1000*1000*1000;
 
+class Bignum
+{
 private:
-    /*A base of the system*/
-    const int base = 1000*1000*1000;
     /*Operands to perform operations with*/
-    vector<int> a, b;
+    vector<int> data;
     /*A temporary value for some methods*/
     int carry;
 
@@ -44,46 +45,47 @@ private:
 
 public:
     /*Default constructor. */
-    Bignum();
+    Bignum() { data.resize(0); }
 
     /*Constructor with parameters */
-    Bignum(string, string);
+    Bignum(string mData);
 
     /*Copy constructor*/
-    Bignum(const Bignum&);
+    Bignum(const Bignum& bignum) { data = bignum.data; }
 
-    /*Get a vector*/
-    vector<int> getA();
+    /*Move constructor*/
+    Bignum(Bignum&& bignum) : data( move(bignum.data) )
+    {}
 
-    /*Get b vector */
-    vector<int> getB();
+    /*Geeter of data*/
+    vector<int> getData() { return data; }
 
-    /*Get temporary value*/
-    int getCarry();
+    /*Assigning operator*/
+    Bignum& operator=(const Bignum& other) { data = other.data; }
+
+    /*Array subscription*/
+    int& operator[](int index) { return data[index]; }
 
     /*Add 2 vectors*/
-    vector<int> addition(vector<int>, vector<int>);
+    Bignum& operator+(const Bignum&);
 
-    /*Subtract 2 vectors*/
-    vector<int> subtraction(vector<int>, vector<int>);
-
-    /*Multiply 2 vectors*/
-    vector<int> multiplication(vector<int>, vector<int>);
-
-    /*Divide vector by number*/
-    vector<int> division(vector<int>, int);
-
-    /*Get arithmetic root of vector a*/
-    void involution();
-
-    /*Raise vector a to a positive power*/
-    void evolution(int);
+//    /*Subtract 2 vectors*/
+//    vector<int> subtraction(vector<int>, vector<int>);
+//
+//    /*Multiply 2 vectors*/
+//    vector<int> multiplication(vector<int>, vector<int>);
+//
+//    /*Divide vector by number*/
+//    vector<int> division(vector<int>, int);
+//
+//    /*Get arithmetic root of vector a*/
+//    void involution();
+//
+//    /*Raise vector a to a positive power*/
+//    void evolution(int);
 
     /*Print vector*/
-    void print(vector<int>);
-
-    /*Print vector with carry*/
-    void print(vector<int>, int);
+    void print();
 
     /*Destructor of class*/
     ~Bignum();

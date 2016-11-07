@@ -26,82 +26,83 @@ int main() {
                 cout << "Input a,b: \n";
                 cin >> a >> b;
 
-                Bignum longArithmetic(a, b);
+                Bignum firstNum(a);
+                Bignum secondNum(b);
+                Bignum result;
 
-                vector<int> additionResult = longArithmetic.addition(longArithmetic.getA(), longArithmetic.getB());
+                result = firstNum + secondNum;
                 cout << "Result: ";
-                longArithmetic.print(additionResult);
-                cout << sizeof(a)*a.capacity() << " " << sizeof(b) << " " << sizeof(additionResult)*additionResult.capacity();
+                result.print();
                 break;
             }
-            case 3: {
-                cout << "Input a,b: \n";
-                cin >> a >> b;
-
-                Bignum longArithmetic(a, b);
-
-                vector<int> subtractionResult = longArithmetic.subtraction(longArithmetic.getA(),
-                                                                             longArithmetic.getB());
-                cout << "Result: ";
-                longArithmetic.print(subtractionResult);
-                break;
-            }
-            case 4: {
-                cout << "Input a,b: \n";
-                cin >> a >> b;
-
-                Bignum longArithmetic(a, b);
-
-                vector<int> multiplicationResult =
-                        longArithmetic.multiplication(longArithmetic.getA(), longArithmetic.getB());
-                cout << "Result: ";
-                longArithmetic.print(multiplicationResult);
-                break;
-            }
-            case 5: {
-                int shortB;
-
-                cout << "Input a, b(short): \n";
-                cin >> a >> shortB;
-
-                Bignum longArithmetic(a, b);
-
-                try {
-                    vector<int> divisionResult = longArithmetic.division(longArithmetic.getA(), shortB);
-                    cout << "Result: ";
-                    longArithmetic.print(divisionResult, longArithmetic.getCarry());
-                } catch (const char *errorMassage) {
-                    cout << "Captured division by 0" << endl;
-                }
-                break;
-            }
-            case 6: {
-                int power;
-
-                cout << "Input a and power: \n";
-                cin >> a >> power;
-                try {
-                    Bignum longArithmetic(a, b);
-
-                    longArithmetic.evolution(power);
-                } catch (const char *errorMassage) {
-                    cout << "Invalid power!" << endl;
-                }
-                break;
-            }
-            case 7: {
-                cout << "Input a: \n";
-                cin >> a;
-
-                Bignum longArithmetic(a, b);
-
-                try {
-                    longArithmetic.involution();
-                } catch (const char *errorMassage) {
-                    cout << "Can't calculate square of negative number" << endl;
-                }
-                break;
-            }
+//            case 3: {
+//                cout << "Input a,b: \n";
+//                cin >> a >> b;
+//
+//                Bignum longArithmetic(a, b);
+//
+//                vector<int> subtractionResult = longArithmetic.subtraction(longArithmetic.getA(),
+//                                                                             longArithmetic.getB());
+//                cout << "Result: ";
+//                longArithmetic.print(subtractionResult);
+//                break;
+//            }
+//            case 4: {
+//                cout << "Input a,b: \n";
+//                cin >> a >> b;
+//
+//                Bignum longArithmetic(a, b);
+//
+//                vector<int> multiplicationResult =
+//                        longArithmetic.multiplication(longArithmetic.getA(), longArithmetic.getB());
+//                cout << "Result: ";
+//                longArithmetic.print(multiplicationResult);
+//                break;
+//            }
+//            case 5: {
+//                int shortB;
+//
+//                cout << "Input a, b(short): \n";
+//                cin >> a >> shortB;
+//
+//                Bignum longArithmetic(a, b);
+//
+//                try {
+//                    vector<int> divisionResult = longArithmetic.division(longArithmetic.getA(), shortB);
+//                    cout << "Result: ";
+//                    longArithmetic.print(divisionResult, longArithmetic.getCarry());
+//                } catch (const char *errorMassage) {
+//                    cout << "Captured division by 0" << endl;
+//                }
+//                break;
+//            }
+//            case 6: {
+//                int power;
+//
+//                cout << "Input a and power: \n";
+//                cin >> a >> power;
+//                try {
+//                    Bignum longArithmetic(a, b);
+//
+//                    longArithmetic.evolution(power);
+//                } catch (const char *errorMassage) {
+//                    cout << "Invalid power!" << endl;
+//                }
+//                break;
+//            }
+//            case 7: {
+//                cout << "Input a: \n";
+//                cin >> a;
+//
+//                Bignum longArithmetic(a, b);
+//
+//                try {
+//                    longArithmetic.involution();
+//                } catch (const char *errorMassage) {
+//                    cout << "Can't calculate square of negative number" << endl;
+//                }
+//                break;
+//            }
             case 8:
                 return 0;
             default:
