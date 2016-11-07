@@ -61,13 +61,19 @@ public:
     vector<int> getData() { return data; }
 
     /*Assigning operator*/
-    Bignum& operator=(const Bignum& other) { data = other.data; }
+    Bignum& operator=(const Bignum& other)
+    {
+        data = other.data;
+        return *this;
+    }
 
     /*Array subscription*/
     int& operator[](int index) { return data[index]; }
 
     /*Add 2 vectors*/
     Bignum& operator+(const Bignum&);
+
+    Bignum& operator+=(const Bignum& other) { return (*this) + other; }
 
 //    /*Subtract 2 vectors*/
 //    vector<int> subtraction(vector<int>, vector<int>);

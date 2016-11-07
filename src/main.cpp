@@ -30,9 +30,10 @@ int main() {
                 Bignum secondNum(b);
                 Bignum result;
 
-                result = firstNum + secondNum;
+                //result = firstNum + secondNum;
+                firstNum += secondNum;
                 cout << "Result: ";
-                result.print();
+                firstNum.print();
                 break;
             }
 //            case 3: {
