@@ -151,6 +151,15 @@ Bignum Bignum::extractRoot()
 
 int Bignum::compare(const Bignum &a, const Bignum &b)
 {
+    auto countDigits = [](int n)
+    {
+        int count = 1;
+        while ( n ) {
+            n = n / 10;
+            count++;
+        }
+        return count;
+    };
     int digitsA = 0, digitsB = 0;
     for(int i = a.data.size() - 1; i >= 0; --i )
         digitsA += countDigits(a.data[i]);
@@ -169,14 +178,5 @@ int Bignum::compare(const Bignum &a, const Bignum &b)
     return 2;
 }
 
-int countDigits(int n)
-{
-    int count = 1;
 
-    while ( n ) {
-        n = n / 10;
-        count++;
-    }
 
-    return count;
-}

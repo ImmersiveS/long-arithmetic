@@ -9,7 +9,6 @@ using namespace std;
 
 /*A base of the system*/
 const int base = 1000*1000*1000;
-int countDigits(int);
 class Bignum
 {
 private:
