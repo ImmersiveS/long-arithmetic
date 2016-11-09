@@ -20,27 +20,27 @@ void Bignum::print() {
     printf("\n");
 }
 
-Bignum& Bignum::operator+(const Bignum& b) {
+Bignum Bignum::operator+(const Bignum& other) {
+    Bignum sum = *this;
     int carry = 0;
 
-    for (size_t i = 0; i < max( (*this).data.size(), b.data.size()) || carry; ++i) {
-        if (i == (*this).data.size())
-            (*this).data.push_back (0);
-        (*this)[i] += carry + (i < b.data.size() ? b.data[i] : 0);
-        carry = (*this)[i] >= base;
-        if (carry)  (*this)[i] -= base;
+    for (size_t i = 0; i < max( sum.data.size(), other.data.size()) || carry; ++i) {
+        if (i == sum.data.size())
+            sum.data.push_back (0);
+        sum[i] += carry + (i < other.data.size() ? other.data[i] : 0);
+        carry = sum[i] >= base;
+        if (carry)  sum[i] -= base;
     }
-    return *this;
+    return sum;
 }
-
-//vector<int> Bignum::subtraction(vector<int> a, vector<int> b) {
-//    int carry = 0;
-//    vector<int> sub;
 //
-//   if (compare(a, b) == 1) {
+//Bignum& Bignum::operator-(const Bignum& other) {
+//    int carry = 0;
+//
+//   if (compare(a, other) == 1) {
 //        sub = a;
-//        for (size_t i = 0; i < b.size() || carry; ++i) {
-//            sub[i] -= carry + (i < b.size() ? b[i] : 0);
+//        for (size_t i = 0; i < other.size() || carry; ++i) {
+//            sub[i] -= carry + (i < other.size() ? other[i] : 0);
 //            carry = sub[i] < 0;
 //            if (carry) sub[i] += base;
 //        }
@@ -48,7 +48,7 @@ Bignum& Bignum::operator+(const Bignum& b) {
 //            sub.pop_back();
 //    }
 //    else {
-//        sub = b;
+//        sub = other;
 //        for (size_t i = 0; i < a.size() || carry; ++i) {
 //            sub[i] -= carry + (i < a.size() ? a[i] : 0);
 //            carry = sub[i] < 0;

@@ -30,10 +30,19 @@ int main() {
                 Bignum secondNum(b);
                 Bignum result;
 
-                //result = firstNum + secondNum;
+                result = firstNum + secondNum;
+                cout << "a + b: ";
+                result.print();
+
                 firstNum += secondNum;
-                cout << "Result: ";
+                cout << "a+=b: ";
                 firstNum.print();
+
+                cout << (firstNum < secondNum);
+
+                cout << (firstNum >= secondNum);
+
+                cout << (firstNum == secondNum);
                 break;
             }
 //            case 3: {

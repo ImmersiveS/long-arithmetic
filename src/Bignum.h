@@ -29,18 +29,18 @@ private:
     }
 
     /*Compare given vectors*/
-    int compare(vector<int> a, vector<int> b) {
-        if (a.size() > b.size())
+    int compare(const Bignum& a, const Bignum& b) {
+        if (a.data.size() > b.data.size())
             return 1;
-        else if (a.size() < b.size())
+        else if (a.data.size() < b.data.size())
             return 0;
-        for (int i = a.size()-1, j = b.size()-1; i >= 0, j >= 0; i--, j--) {
-            if (a[i] > b[i])
+        for (int i = a.data.size()-1, j = b.data.size()-1; i >= 0, j >= 0; i--, j--) {
+            if (a.data[i] > b.data[i])
                 return 1;
-            else if (a[i] < b[i])
+            else if (a.data[i] < b.data[i])
                 return -1;
         }
-        return 0;
+        return 2;
     }
 
 public:
@@ -51,11 +51,10 @@ public:
     Bignum(string mData);
 
     /*Copy constructor*/
-    Bignum(const Bignum& bignum) { data = bignum.data; }
+    Bignum(const Bignum& bignum) : data(bignum.data) {}
 
     /*Move constructor*/
-    Bignum(Bignum&& bignum) : data( move(bignum.data) )
-    {}
+    Bignum(Bignum&& bignum) : data(move(bignum.data)) {}
 
     /*Geeter of data*/
     vector<int> getData() { return data; }
@@ -67,16 +66,29 @@ public:
         return *this;
     }
 
+    bool operator<(const Bignum& other) {return compare((*this), other) == 0;}
+    bool operator>(const Bignum& other) {return compare((*this), other) == 1;}
+    bool operator<=(const Bignum& other) {return compare((*this), other) % 2 == 0;}
+    bool operator>=(const Bignum& other) {return compare((*this), other) >= 1;}
+    bool operator==(const Bignum& other) {return compare((*this), other) == 2;}
+    bool operator!=(const Bignum& other) {return compare((*this), other) != 2;}
+
+
+
     /*Array subscription*/
     int& operator[](int index) { return data[index]; }
 
     /*Add 2 vectors*/
-    Bignum& operator+(const Bignum&);
+    Bignum operator+(const Bignum&);
 
-    Bignum& operator+=(const Bignum& other) { return (*this) + other; }
+    /*Short addition*/
+    Bignum operator+=(const Bignum& other) { return (*this) = (*this) + other; }
 
 //    /*Subtract 2 vectors*/
-//    vector<int> subtraction(vector<int>, vector<int>);
+//    Bignum& operator-(const Bignum&);
+//
+//    /*Short addition*/
+//    Bignum& operator-=(const Bignum& other) { return (*this) + other; }
 //
 //    /*Multiply 2 vectors*/
 //    vector<int> multiplication(vector<int>, vector<int>);
