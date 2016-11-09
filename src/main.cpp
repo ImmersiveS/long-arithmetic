@@ -70,6 +70,20 @@ int main() {
                 } catch (const char* e) {
                     cerr << "Can't take root" << endl;
                 }
+                cout << "-a: ";
+                (-firstNum).print();
+                cout << "++a: ";
+                ++firstNum;
+                firstNum.print();
+                cout << "a++: ";
+                firstNum++;
+                firstNum.print();
+                cout << "--a: ";
+                --firstNum;
+                firstNum.print();
+                cout << "a--: ";
+                firstNum--;
+                firstNum.print();
 
                 break;
             }

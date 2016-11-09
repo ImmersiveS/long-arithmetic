@@ -9,15 +9,12 @@ using namespace std;
 
 /*A base of the system*/
 const int base = 1000*1000*1000;
-
+int countDigits(int);
 class Bignum
 {
 private:
     /*Operands to perform operations with*/
     vector<int> data;
-    int len;
-    /*A temporary value for some methods*/
-    int carry;
 
     /*Check whether or not a given vector is negative*/
     inline bool checkNegative(vector<int> formalVector) {
@@ -30,23 +27,11 @@ private:
     }
 
     /*Compare given vectors*/
-    int compare(const Bignum& a, const Bignum& b) {
-        if (a.len > b.len)
-            return 1;
-        else if (a.len < b.len)
-            return 0;
-        for (int i = a.data.size()-1, j = b.data.size()-1; i >= 0, j >= 0; --i, --j) {
-            if (a.data[i] > b.data[i])
-                return 1;
-            else if (a.data[i] < b.data[i])
-                return 0;
-        }
-        return 2;
-    }
+    int compare(const Bignum& a, const Bignum& b);
 
 public:
     /*Default constructor. */
-    Bignum() : len(0) { data.resize(0); }
+    Bignum() { data.resize(0); }
 
     /*Constructor with parameters */
     Bignum(string mData);
@@ -60,8 +45,6 @@ public:
     /*Geeter of data*/
     vector<int> getData() { return data; }
 
-    int getLength() {return len;}
-
     /*Assigning operator*/
     Bignum& operator=(const Bignum& other)
     {
@@ -73,12 +56,42 @@ public:
     int& operator[](int index) { return data[index]; }
 
     /*Comparison operators*/
-    bool operator < (const Bignum& other) {return compare((*this), other) == 0;}
-    bool operator > (const Bignum& other) {return compare((*this), other) == 1;}
-    bool operator <=(const Bignum& other) {return compare((*this), other) % 2 == 0;}
-    bool operator >=(const Bignum& other) {return compare((*this), other) >= 1;}
-    bool operator ==(const Bignum& other) {return compare((*this), other) == 2;}
-    bool operator !=(const Bignum& other) {return compare((*this), other) != 2;}
+    bool operator < (const Bignum& other) { return compare((*this), other) == 0; }
+    bool operator > (const Bignum& other) { return compare((*this), other) == 1; }
+    bool operator <=(const Bignum& other) { return compare((*this), other) % 2 == 0; }
+    bool operator >=(const Bignum& other) { return compare((*this), other) >= 1; }
+    bool operator ==(const Bignum& other) { return compare((*this), other) == 2; }
+    bool operator !=(const Bignum& other) { return compare((*this), other) != 2; }
+
+    Bignum operator -()
+    {
+        Bignum tmp(*this);
+        for(int i = tmp.data.size()-1; i>=0; i--)
+            if(tmp[i] != 0) {
+                tmp[i] = -tmp[i];
+                break;
+            }
+        return tmp;
+    }
+
+    Bignum& operator ++()
+    {
+        Bignum one("1");
+        return (*this) = (*this) + one;
+    }
+    Bignum operator ++(int) {
+        Bignum one("1");
+        return (*this) = (*this) + one;
+    }
+    Bignum& operator --()
+    {
+        Bignum one("1");
+        return (*this) = (*this) - one;
+    }
+    Bignum operator --(int) {
+        Bignum one("1");
+        return (*this) = (*this) - one;
+    }
 
     /*Add 2 vectors*/
     Bignum operator +(const Bignum&);
@@ -98,17 +111,17 @@ public:
     /*Short multiplying*/
     Bignum operator *=(const Bignum& other) { return (*this) = (*this) * other; };
 
-//    /*Divide vector by number*/
-//    Bignum operator /(const Bignum&);
-//
-//    /*Short division*/
-//    Bignum operator /=(const Bignum& other) { return (*this) = (*this) / other; }
-//
-//    /*Get arithmetic root of vector a*/
-//    void involution();
-//
-//    /*Raise vector a to a positive power*/
-//    void evolution(int);
+    /*Divide vector by number*/
+    Bignum operator /(const long long);
+
+    /*Short division*/
+    Bignum operator /=(const long other) { return (*this) = (*this) / other; }
+
+    /*Get arithmetic root of vector a*/
+    Bignum extractRoot();
+
+    /*Raise vector a to a positive power*/
+    Bignum operator ^(int);
 
     /*Print vector*/
     void print();

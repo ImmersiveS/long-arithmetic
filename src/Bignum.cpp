@@ -3,7 +3,6 @@
 
 Bignum::Bignum(string mData)
 {
-    len = mData.length();
     for (int i = mData.length(); i > 0; i -= 9)
         if (i < 9)
             data.push_back(atoi(mData.substr(0, i).c_str()));
@@ -15,7 +14,7 @@ Bignum::Bignum(string mData)
 
 void Bignum::print() {
     printf ("%d", data.empty() ? 0 : data.back());
-    for (int i=(int)data.size()-2; i>=0; --i)
+    for (int i = static_cast<int>(data.size()-2); i >= 0; --i)
         printf ("%09d", data[i]);
     printf("\n");
 }
@@ -63,7 +62,7 @@ Bignum Bignum::operator -(const Bignum& other)
 
         for(int i = sub.data.size()-1; i>=0; i--)
             if(sub[i] != 0) {
-                sub[i] = sub[i] - 2*sub[i];
+                sub[i] = -sub[i];
                 break;
             }
     }
@@ -85,62 +84,99 @@ Bignum Bignum::operator *(const Bignum& other)
         multi.data.pop_back();
     return multi;
 }
-//
-//Bignum Bignum::operator /(const Bignum &)
-//{
-//    if (shortB == 0)
-//        throw "Error";
-//
-//    carry = 0;
-//    vector<int> div(a);
-//
-//    for (int i=(int)div.size()-1; i>=0; --i) {
-//        long long cur = div[i] + carry * 1ll * base;
-//        div[i] = int (cur / shortB);
-//        carry = int (cur % shortB);
-//    }
-//    if (carry < 0)
-//        carry = carry - 2 * carry;
-//    while (div.size() > 1 && div.back() == 0)
-//        div.pop_back();
-//    return div;
-//}
-//
-//void Bignum::evolution(int power) {
-//    vector<int> basis = data, result = data;
-//
-//    if (power < 0)
-//        throw "Error";
-//    else if (power == 0)
-//        cout << 1 << endl;
-//    else {
-//        while (power--)
-//            result = multiplication(result, basis);
-//        print(result);
-//    }
-//}
-//
-//
-//void Bignum::involution() {
-//    if (checkNegative(data))
-//        throw "Error";
-//    vector<int> l(0);
-//    l.push_back(0);
-//    vector<int> r(data), res;
-//     string one = "1";
-//     string two = "2";
-//    Bignum longArithmetic(one,two);
-//
-//    while (longArithmetic.compare(l,r) == -1 || longArithmetic.compare(l,r) == 0)
-//    {
-//        vector<int> m = longArithmetic.division(longArithmetic.addition(l,r),longArithmetic.getB()[longArithmetic.getB().size()-1]);
-//        if (longArithmetic.compare(longArithmetic.multiplication(m,m),data) == -1 || longArithmetic.compare(longArithmetic.multiplication(m,m),data) == 0)
-//        {
-//            res = m;
-//            l = longArithmetic.addition(m, longArithmetic.getA());
-//        }
-//        else
-//            r = longArithmetic.subtraction(m, longArithmetic.getA());
-//    }
-//    print(res);
-//}
+
+Bignum Bignum::operator /(long long other)
+{
+    if (other == 0)
+        throw "Error";
+
+    int carry = 0;
+    Bignum div = *this;
+
+    for (int i = static_cast<int>(div.data.size() - 1); i >= 0; --i) {
+        long long cur = div[i] + carry * 1ll * base;
+        div[i] = static_cast<int> (cur / other);
+        carry = static_cast<int> (cur % other);
+    }
+    while (div.data.size() > 1 && div.data.back() == 0)
+        div.data.pop_back();
+    return div;
+}
+
+Bignum Bignum::operator ^(int power)
+{
+    Bignum basis = *this;
+    Bignum result = *this;
+    Bignum one("1");
+    if (power < 0)
+        throw "Error";
+    else if (power == 0)
+        result = one;
+    else {
+        while (--power)
+            result *= basis;
+        for(int i = result.data.size()-2; i>=0; i--)
+            if(result[i] < 0) {
+                result[i] = -result[i];
+                break;
+            }
+    }
+    return result;
+}
+
+Bignum Bignum::extractRoot()
+{
+    if ( checkNegative((*this).data) )
+        throw "Error";
+    Bignum l("0");
+    Bignum r = *this;
+    Bignum result;
+    Bignum one("1");
+
+    while ( l <= r )
+    {
+        Bignum m = (l + r) / 2;
+
+        if ( (m * m) <= (*this) )
+        {
+            result = m;
+            l = m + one;
+        }
+        else
+            r = m - one;
+
+    }
+    return result;
+}
+
+int Bignum::compare(const Bignum &a, const Bignum &b)
+{
+    int digitsA = 0, digitsB = 0;
+    for(int i = a.data.size() - 1; i >= 0; --i )
+        digitsA += countDigits(a.data[i]);
+    for(int i = b.data.size() - 1; i >= 0; --i )
+        digitsB += countDigits(b.data[i]);
+    if (digitsA > digitsB)
+        return 1;
+    else if (digitsA < digitsB)
+        return 0;
+    for (int i = a.data.size()-1, j = b.data.size()-1; i >= 0, j >= 0; --i, --j) {
+        if (a.data[i] > b.data[i])
+            return 1;
+        else if (a.data[i] < b.data[i])
+            return 0;
+    }
+    return 2;
+}
+
+int countDigits(int n)
+{
+    int count = 1;
+
+    while ( n ) {
+        n = n / 10;
+        count++;
+    }
+
+    return count;
+}
