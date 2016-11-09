@@ -1,12 +1,12 @@
 #include <iostream>
 #include "Bignum.h"
-#include <typeinfo>
 using namespace std;
 
 int main() {
 
     string a;
     string b;
+    int power, shortB;
     int checker;
 
     while (true) {
@@ -24,11 +24,18 @@ int main() {
             }
 
             case 2: {
-                cout << "Input a,b: \n";
-                cin >> a >> b;
+                cout << "Input a, b, shortB, power: \n";
+                cin >> a >> b >> shortB >> power;
 
                 Bignum firstNum(a);
                 Bignum secondNum(b);
+
+                cout << "a < b:" << (firstNum < secondNum) << endl;
+                cout << "a > b:" << (firstNum > secondNum) << endl;
+                cout << "a <= b:" << (firstNum <= secondNum) << endl;
+                cout << "a >= b:" << (firstNum >= secondNum) << endl;
+                cout << "a == b:" << (firstNum == secondNum) << endl;
+                cout << "a != b:" << (firstNum != secondNum) << endl;
 
                 cout << "a + b: ";
                 (firstNum + secondNum).print();
@@ -48,12 +55,22 @@ int main() {
                 cout << "a *= b: ";
                 firstNum.print();
 
-                cout << (firstNum < secondNum);
-                cout << (firstNum > secondNum);
-                cout << (firstNum <= secondNum);
-                cout << (firstNum >= secondNum);
-                cout << (firstNum == secondNum);
-                cout << (firstNum != secondNum);
+                cout << "a / b: ";
+                (firstNum / shortB).print();
+                firstNum /= shortB;
+                cout << "a /= b: ";
+                firstNum.print();
+
+                cout << "a ^ power: ";
+                (firstNum ^ power).print();
+
+                try {
+                    cout << "The root of a : ";
+                    (firstNum.extractRoot()).print();
+                } catch (const char* e) {
+                    cerr << "Can't take root" << endl;
+                }
+
                 break;
             }
             case 3:
