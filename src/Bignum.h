@@ -15,6 +15,7 @@ class Bignum
 private:
     /*Operands to perform operations with*/
     vector<int> data;
+    int len;
     /*A temporary value for some methods*/
     int carry;
 
@@ -30,22 +31,22 @@ private:
 
     /*Compare given vectors*/
     int compare(const Bignum& a, const Bignum& b) {
-        if (a.data.size() > b.data.size())
+        if (a.len > b.len)
             return 1;
-        else if (a.data.size() < b.data.size())
+        else if (a.len < b.len)
             return 0;
-        for (int i = a.data.size()-1, j = b.data.size()-1; i >= 0, j >= 0; i--, j--) {
+        for (int i = a.data.size()-1, j = b.data.size()-1; i >= 0, j >= 0; --i, --j) {
             if (a.data[i] > b.data[i])
                 return 1;
             else if (a.data[i] < b.data[i])
-                return -1;
+                return 0;
         }
         return 2;
     }
 
 public:
     /*Default constructor. */
-    Bignum() { data.resize(0); }
+    Bignum() : len(0) { data.resize(0); }
 
     /*Constructor with parameters */
     Bignum(string mData);
@@ -59,6 +60,8 @@ public:
     /*Geeter of data*/
     vector<int> getData() { return data; }
 
+    int getLength() {return len;}
+
     /*Assigning operator*/
     Bignum& operator=(const Bignum& other)
     {
@@ -66,35 +69,40 @@ public:
         return *this;
     }
 
-    bool operator<(const Bignum& other) {return compare((*this), other) == 0;}
-    bool operator>(const Bignum& other) {return compare((*this), other) == 1;}
-    bool operator<=(const Bignum& other) {return compare((*this), other) % 2 == 0;}
-    bool operator>=(const Bignum& other) {return compare((*this), other) >= 1;}
-    bool operator==(const Bignum& other) {return compare((*this), other) == 2;}
-    bool operator!=(const Bignum& other) {return compare((*this), other) != 2;}
-
-
-
     /*Array subscription*/
     int& operator[](int index) { return data[index]; }
 
+    /*Comparison operators*/
+    bool operator < (const Bignum& other) {return compare((*this), other) == 0;}
+    bool operator > (const Bignum& other) {return compare((*this), other) == 1;}
+    bool operator <=(const Bignum& other) {return compare((*this), other) % 2 == 0;}
+    bool operator >=(const Bignum& other) {return compare((*this), other) >= 1;}
+    bool operator ==(const Bignum& other) {return compare((*this), other) == 2;}
+    bool operator !=(const Bignum& other) {return compare((*this), other) != 2;}
+
     /*Add 2 vectors*/
-    Bignum operator+(const Bignum&);
+    Bignum operator +(const Bignum&);
 
     /*Short addition*/
-    Bignum operator+=(const Bignum& other) { return (*this) = (*this) + other; }
+    Bignum operator +=(const Bignum& other) { return (*this) = (*this) + other; }
 
-//    /*Subtract 2 vectors*/
-//    Bignum& operator-(const Bignum&);
-//
-//    /*Short addition*/
-//    Bignum& operator-=(const Bignum& other) { return (*this) + other; }
-//
-//    /*Multiply 2 vectors*/
-//    vector<int> multiplication(vector<int>, vector<int>);
-//
+    /*Subtract 2 vectors*/
+    Bignum operator -(const Bignum&);
+
+    /*Short addition*/
+    Bignum operator -=(const Bignum& other) { return (*this) = (*this) - other; }
+
+    /*Multiply 2 vectors*/
+    Bignum operator *(const Bignum&);
+
+    /*Short multiplying*/
+    Bignum operator *=(const Bignum& other) { return (*this) = (*this) * other; };
+
 //    /*Divide vector by number*/
-//    vector<int> division(vector<int>, int);
+//    Bignum operator /(const Bignum&);
+//
+//    /*Short division*/
+//    Bignum operator /=(const Bignum& other) { return (*this) = (*this) / other; }
 //
 //    /*Get arithmetic root of vector a*/
 //    void involution();
@@ -104,9 +112,6 @@ public:
 
     /*Print vector*/
     void print();
-
-    /*Destructor of class*/
-    ~Bignum();
 };
 
 #endif //LONG_ARITHMETIC_LONGARITHMETIC_H

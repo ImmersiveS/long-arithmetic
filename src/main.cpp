@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Bignum.h"
+#include <typeinfo>
 using namespace std;
 
 int main() {
@@ -10,8 +11,8 @@ int main() {
 
     while (true) {
 
-        cout << "\nChoose operation: \n1)To read general information\n2)Addition"
-                "\n3)Subtraction\n4)Multiplication\n5)Division\n6)Evolution\n7)Arithmetic root\n8)Quit\n";
+        cout << "\nChoose operation: \n1)Read general information\n2)Perform calculations"
+                "\n3)Quit\n";
         cin >> checker;
 
         switch (checker) {
@@ -28,92 +29,34 @@ int main() {
 
                 Bignum firstNum(a);
                 Bignum secondNum(b);
-                Bignum result;
 
-                result = firstNum + secondNum;
                 cout << "a + b: ";
-                result.print();
-
+                (firstNum + secondNum).print();
                 firstNum += secondNum;
-                cout << "a+=b: ";
+                cout << "a += b: ";
+                firstNum.print();
+
+                firstNum -= secondNum;
+                cout << "a -= b: ";
+                firstNum.print();
+                cout << "a - b: ";
+                (firstNum - secondNum).print();
+
+                cout << "a * b: ";
+                (firstNum * secondNum).print();
+                firstNum *= secondNum;
+                cout << "a *= b: ";
                 firstNum.print();
 
                 cout << (firstNum < secondNum);
-
+                cout << (firstNum > secondNum);
+                cout << (firstNum <= secondNum);
                 cout << (firstNum >= secondNum);
-
                 cout << (firstNum == secondNum);
+                cout << (firstNum != secondNum);
                 break;
             }
-//            case 3: {
-//                cout << "Input a,b: \n";
-//                cin >> a >> b;
-//
-//                Bignum longArithmetic(a, b);
-//
-//                vector<int> subtractionResult = longArithmetic.subtraction(longArithmetic.getA(),
-//                                                                             longArithmetic.getB());
-//                cout << "Result: ";
-//                longArithmetic.print(subtractionResult);
-//                break;
-//            }
-//            case 4: {
-//                cout << "Input a,b: \n";
-//                cin >> a >> b;
-//
-//                Bignum longArithmetic(a, b);
-//
-//                vector<int> multiplicationResult =
-//                        longArithmetic.multiplication(longArithmetic.getA(), longArithmetic.getB());
-//                cout << "Result: ";
-//                longArithmetic.print(multiplicationResult);
-//                break;
-//            }
-//            case 5: {
-//                int shortB;
-//
-//                cout << "Input a, b(short): \n";
-//                cin >> a >> shortB;
-//
-//                Bignum longArithmetic(a, b);
-//
-//                try {
-//                    vector<int> divisionResult = longArithmetic.division(longArithmetic.getA(), shortB);
-//                    cout << "Result: ";
-//                    longArithmetic.print(divisionResult, longArithmetic.getCarry());
-//                } catch (const char *errorMassage) {
-//                    cout << "Captured division by 0" << endl;
-//                }
-//                break;
-//            }
-//            case 6: {
-//                int power;
-//
-//                cout << "Input a and power: \n";
-//                cin >> a >> power;
-//                try {
-//                    Bignum longArithmetic(a, b);
-//
-//                    longArithmetic.evolution(power);
-//                } catch (const char *errorMassage) {
-//                    cout << "Invalid power!" << endl;
-//                }
-//                break;
-//            }
-//            case 7: {
-//                cout << "Input a: \n";
-//                cin >> a;
-//
-//                Bignum longArithmetic(a, b);
-//
-//                try {
-//                    longArithmetic.involution();
-//                } catch (const char *errorMassage) {
-//                    cout << "Can't calculate square of negative number" << endl;
-//                }
-//                break;
-//            }
-            case 8:
+            case 3:
                 return 0;
             default:
                 cout << "Wrong selection!" << endl;
