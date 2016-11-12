@@ -103,20 +103,24 @@ Bignum Bignum::operator /(long long other)
     return div;
 }
 
-Bignum Bignum::operator ^(int power)
+Bignum Bignum::operator ^(const Bignum& other)
 {
     Bignum basis = *this;
     Bignum result = *this;
     Bignum one("1");
-    if (power < 0)
+    Bignum zero("0");
+    Bignum power = other;
+    if (power < zero)
         throw "Error";
-    else if (power == 0)
+    else if (power == zero)
         result = one;
-    else {
-        while (--power)
+    else
+    {
+        while ((power--) != zero)
             result *= basis;
         for(int i = result.data.size()-2; i>=0; i--)
-            if(result[i] < 0) {
+            if(result[i] < 0)
+            {
                 result[i] = -result[i];
                 break;
             }

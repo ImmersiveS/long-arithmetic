@@ -120,7 +120,7 @@ public:
     Bignum extractRoot();
 
     /*Raise vector a to a positive power*/
-    Bignum operator ^(int);
+    Bignum operator ^(const Bignum& other);
 
     /*Print vector*/
     void print();

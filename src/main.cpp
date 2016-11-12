@@ -1,31 +1,42 @@
 #include <iostream>
+#include <conio.h>
 #include "Bignum.h"
+#include "BignumException.h"
+#include "NotNumberException.h"
 using namespace std;
 
 int main() {
 
     string a;
     string b;
-    int power, shortB;
+    int shortB;
     int checker;
+    auto clearFlow = []() { std::cin.clear(); while (std::cin.get() != '\n'); };
 
     while (true) {
 
         cout << "\nChoose operation: \n1)Read general information\n2)Perform calculations"
                 "\n3)Quit\n";
-        cin >> checker;
+        try
+        {
+            cin >> checker;
+            clearFlow();
+            if (!cin) throw NotNumberException();
+        }
+
+        catch (NotNumberException& e) { e.what(); continue;}
 
         switch (checker) {
 
             case 1: {
-                cout << "SNP: Lobachev S.U.\nVariant: 8\nLevel: V\n"
-                        "Assignment: implement the class long arithmetic within its operations" << endl;
+                cout << "FN: Lobachev S.U.\nVariant: 8\nLevel: V\n"
+                        "Assignment: implement the class long arithmetic within its operations and exception handling" << endl;
                 break;
             }
 
             case 2: {
-                cout << "Input a, b, shortB, power: \n";
-                cin >> a >> b >> shortB >> power;
+                cout << "Input a, b, shortB: \n";
+                cin >> a >> b >> shortB;
 
                 Bignum firstNum(a);
                 Bignum secondNum(b);
@@ -61,8 +72,8 @@ int main() {
                 cout << "a /= b: ";
                 firstNum.print();
 
-                cout << "a ^ power: ";
-                (firstNum ^ power).print();
+                cout << "a ^ b: ";
+                (firstNum ^ secondNum).print();
 
                 try {
                     cout << "The root of a : ";
