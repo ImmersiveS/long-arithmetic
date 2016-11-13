@@ -10,9 +10,8 @@
 
 class NotNumberException : public BignumException {
 public:
-    NotNumberException() { std::cin.clear(); while (std::cin.get() != '\n'); }
     void what() {
-        std::cout << "Expected 'int' but received 'char'" << std::endl;
+        cerr << "Error, received inappropriate data" << endl;
     }
 };
 

@@ -1,5 +1,7 @@
 #include <iostream>
 #include "Bignum.h"
+#include "ZeroDivideException.h"
+#include "NegativeRootException.h"
 
 Bignum::Bignum(string mData)
 {
@@ -88,7 +90,7 @@ Bignum Bignum::operator *(const Bignum& other)
 Bignum Bignum::operator /(long long other)
 {
     if (other == 0)
-        throw "Error";
+        throw ZeroDivideException();
 
     int carry = 0;
     Bignum div = *this;
@@ -110,20 +112,12 @@ Bignum Bignum::operator ^(const Bignum& other)
     Bignum one("1");
     Bignum zero("0");
     Bignum power = other;
-    if (power < zero)
-        throw "Error";
-    else if (power == zero)
+    if (power == zero)
         result = one;
     else
     {
         while ((power--) != zero)
             result *= basis;
-        for(int i = result.data.size()-2; i>=0; i--)
-            if(result[i] < 0)
-            {
-                result[i] = -result[i];
-                break;
-            }
     }
     return result;
 }
@@ -131,7 +125,7 @@ Bignum Bignum::operator ^(const Bignum& other)
 Bignum Bignum::extractRoot()
 {
     if ( checkNegative((*this).data) )
-        throw "Error";
+        throw NegativeRootException();
     Bignum l("0");
     Bignum r = *this;
     Bignum result;

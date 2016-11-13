@@ -11,7 +11,7 @@
 class BignumException {
 public:
     virtual void what() {
-        std::cout << "BignumException" << std::endl;
+        cerr << "BignumException" << endl;
     }
 };
 
