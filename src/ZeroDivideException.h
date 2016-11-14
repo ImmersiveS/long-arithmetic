@@ -10,7 +10,7 @@
 
 class ZeroDivideException : public BignumException{
 public:
-    void what() { cerr << "\nError, caught division by zero" << endl;}
+    const void what() const { cerr << "\nError, caught division by zero" << endl;}
 };
 
 

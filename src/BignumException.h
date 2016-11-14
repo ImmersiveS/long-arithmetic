@@ -10,8 +10,8 @@
 
 class BignumException {
 public:
-    virtual void what() {
-        cerr << "BignumException" << endl;
+    virtual const  void what() const {
+        cerr << "BignumException called" << endl;
     }
 };
 

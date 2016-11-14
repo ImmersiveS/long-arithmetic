@@ -8,11 +8,10 @@
 
 #include "BignumException.h"
 
-class NotNumberException : public BignumException {
+class NotNumberException : public BignumException
+{
 public:
-    void what() {
-        cerr << "Error, received inappropriate data" << endl;
-    }
+    const void what() const { cerr << "\nError, received inappropriate data" << endl; }
 };
 
 

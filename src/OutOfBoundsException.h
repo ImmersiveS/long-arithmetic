@@ -10,8 +10,11 @@
 
 class OutOfBoundsException : public BignumException {
 public:
-    void what() { cerr << "Error, big number can't have more than 30 "
-                "digits and for power - more than 4" << endl;}
+    const void what() const
+    {
+        cerr << "\nError, big number can't have more than 40 "
+                "digits and for power - more than 3" << endl;
+    }
 };
 
 

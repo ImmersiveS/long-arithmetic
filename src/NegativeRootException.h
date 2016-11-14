@@ -9,7 +9,7 @@
 
 class NegativeRootException : public BignumException{
 public:
-    void what() { std::cout << "\nError, caught obtaining arithmetical root of negative number" << std::endl;}
+    const void what() const { std::cout << "\nError, caught obtaining arithmetical root of negative number" << std::endl;}
 };
 
 #endif //LONG_ARITHMETIC_NEGATIVEROOTEXCEPTION_H

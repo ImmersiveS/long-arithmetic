@@ -1,23 +1,19 @@
 #include <iostream>
-#include <conio.h>
-#include <limits>
 #include "Bignum.h"
 #include "BignumException.h"
 #include "NotNumberException.h"
 #include "OutOfBoundsException.h"
 #include "ZeroDivideException.h"
 #include "NegativeRootException.h"
+#include "OverflowException.h"
 
 using namespace std;
 
 int main() {
 
-    string a;
-    string b;
+    string a, b, buffChecker, buffShortB;
     string power;
     int shortB, checker;
-    char buffChecker[100];
-    auto clearFlow = []() { cin.clear(); while (cin.get() != '\n'); };
 
     while (true) {
 
@@ -26,11 +22,15 @@ int main() {
         try
         {
             cin >> buffChecker;
-            if (buffChecker[1] != '\0') throw NotNumberException();
-            clearFlow();
-            checker = atoi(buffChecker);
+            string::iterator it;
+            for ( it = buffChecker.begin(); it < buffChecker.end(); ++it)
+                if (*it < '0' || *it > '9')
+                    throw NotNumberException();
+            if (buffChecker.size() > 18)
+                throw OverflowException();
+            checker = atoi(buffChecker.c_str());
         }
-        catch (NotNumberException& e) { e.what(); continue;}
+        catch (const BignumException& e) { e.what(); continue;}
         catch (...) { cerr << "Undefined exception called" << endl; continue; }
 
         switch (checker)
@@ -52,31 +52,33 @@ int main() {
                     cout << "Input b: \n";
                     cin >> b;
                     cout << "Input shortB: \n";
-                    cin >> shortB;
-                    if (!cin)
-                        throw NotNumberException();
-                    clearFlow();
+                    cin >> buffShortB;
                     cout << "Input power: \n";
                     cin >> power;
-                    if (shortB > INTMAX_MAX || shortB < INTMAX_MIN)
-                        throw overflow_error("shortB is overflowed");
-                    string::iterator it;
-                    for ( it = a.begin(); it < a.end(); ++it )
-                        if (*it < '0' || *it > '9')
+                    string::iterator it1, it2, it3, it4;
+                    //auto controlIterator = [](string::iterator it, string s) { if (it == s.end()) it--;};
+                    for ( it1 = a.begin(), it2 = b.begin(), it3 = buffShortB.begin(), it4 = power.begin();
+                          (it1 < a.end() || it2 < b.end() || it3 < buffShortB.end() || it4 < power.end());
+                          it1, it2++, it3++, it4++) {
+                        if (it1 == a.end()) --it1;
+                        if (it2 == b.end()) --it2;
+                        if (it3 == buffShortB.end()) --it3;
+                        if (it4 == power.end()) --it4;
+                        if (*it1 < '0' || *it1 > '9'
+                            || *it2 < '0' || *it2 > '9'
+                            || *it3 < '0' || *it3 > '9'
+                            || *it4 < '0' || *it4 > '9')
                             throw NotNumberException();
-                    for ( it = b.begin(); it < b.end(); ++it )
-                        if (*it < '0' || *it > '9')
-                            throw NotNumberException();
-                    for ( it = power.begin(); it < power.end(); ++it )
-                        if (*it < '0' || *it > '9')
-                            throw NotNumberException();
-                    if (a.length() > 30 || b.length() > 30 || power.length() > 4)
+                    }
+                    if (a.length() > 40 || b.length() > 40 || power.length() > 3)
                         throw OutOfBoundsException();
+                    if (buffShortB.size() > 18)
+                        throw OverflowException();
+                    else
+                        shortB = atoi(buffShortB.c_str());
                 }
-                catch (NotNumberException& e) { e.what(); continue; }
-                catch (overflow_error& e) { e.what(); continue; }
-                catch (OutOfBoundsException& e) { e.what(); continue; }
-                catch (...) { cerr << "Undefined exception called" << endl; continue; }
+                catch (BignumException& e) { e.what(); continue; }
+                catch (...) { cerr << "\nUndefined exception called" << endl; continue; }
 
                 Bignum firstNum(a);
                 Bignum secondNum(b);
@@ -88,17 +90,17 @@ int main() {
                 cout << "a == b:" << (firstNum == secondNum) << endl;
                 cout << "a != b:" << (firstNum != secondNum) << endl;
 
-                cout << "a + b: ";
-                (firstNum + secondNum).print();
-                firstNum += secondNum;
-                cout << "a += b: ";
-                firstNum.print();
-
+                cout << "a - b: ";
+                (firstNum - secondNum).print();
                 firstNum -= secondNum;
                 cout << "a -= b: ";
                 firstNum.print();
-                cout << "a - b: ";
-                (firstNum - secondNum).print();
+
+                firstNum += secondNum;
+                cout << "a += b: ";
+                firstNum.print();
+                cout << "a + b: ";
+                (firstNum + secondNum).print();
 
                 cout << "a * b: ";
                 (firstNum * secondNum).print();
